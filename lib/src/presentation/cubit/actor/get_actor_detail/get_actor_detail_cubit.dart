@@ -25,3 +25,4 @@ class GetActorDetailCubit extends Cubit<GetActorDetailState> {
   }
   final ActorUsecases _actorUsecases;
 }
+
