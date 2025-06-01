@@ -17,14 +17,15 @@ class BookmarksView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<GetSavedMoviesCubit, GetSavedMoviesState>(
-      builder: (_, getSavedMoviesState) {
-        return switch (getSavedMoviesState) {
-          GetSavedMoviesLoaded() => _BookmarksView(getSavedMoviesState.movies),
+      builder: (_, state) {
+        return switch (state) {
+          GetSavedMoviesLoaded() => _BookmarksView(state.movies),
           GetSavedMoviesError() => Padding(
               padding: const EdgeInsets.all(12).r,
               child: RetryButton(
-                retryAction: () => context.read<GetSavedMoviesCubit>().getSavedMovieDetails(),
-                text: getSavedMoviesState.message,
+                retryAction: () =>
+                    context.read<GetSavedMoviesCubit>().getSavedMovieDetails(),
+                text: state.message,
               ),
             ),
           _ => const BaseIndicator(),
@@ -66,9 +67,15 @@ class _BookmarksView extends StatelessWidget {
           itemBuilder: (context, index) {
             final tag = UniqueKey();
 
-            return GestureDetector(
-              onTap: () => context.router.push(MovieDetailRoute(movieDetail: movies?[index], heroTag: tag)),
-              child: Hero(tag: tag, child: MovieCard(movie: movies?[index])),
+            return AnimatedOpacity(
+              opacity: 1.0,
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeInBack,
+              child: GestureDetector(
+                onTap: () => context.router.push(MovieDetailRoute(
+                    movieDetail: movies?[index], heroTag: tag)),
+                child: Hero(tag: tag, child: MovieCard(movie: movies?[index])),
+              ),
             );
           },
         );

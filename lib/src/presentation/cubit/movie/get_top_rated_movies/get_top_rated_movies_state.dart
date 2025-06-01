@@ -7,7 +7,10 @@ sealed class GetTopRatedMoviesState extends Equatable {
   List<Object> get props => [];
 }
 
-final class GetTopRatedMoviesInitial extends GetTopRatedMoviesState {}
+final class GetTopRatedMoviesInitial extends GetTopRatedMoviesState {
+  @override
+  List<Object> get props => [];
+}
 
 final class GetTopRatedMoviesLoading extends GetTopRatedMoviesState {
   const GetTopRatedMoviesLoading();

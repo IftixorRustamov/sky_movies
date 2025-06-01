@@ -4,8 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppTheme {
   static ThemeData lightTheme = FlexThemeData.light(
-    useMaterial3: true,
-    scheme: FlexScheme.green,
+    scheme: FlexScheme.bahamaBlue,
     appBarStyle: FlexAppBarStyle.primary,
     tabBarStyle: FlexTabBarStyle.forAppBar,
     swapColors: true,
@@ -24,8 +23,7 @@ class AppTheme {
   );
 
   static ThemeData darkTheme = FlexThemeData.dark(
-    useMaterial3: true,
-    scheme: FlexScheme.bigStone,
+    scheme: FlexScheme.blueWhale,
     appBarStyle: FlexAppBarStyle.primary,
     tabBarStyle: FlexTabBarStyle.forAppBar,
     swapColors: true,

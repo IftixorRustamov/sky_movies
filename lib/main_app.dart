@@ -21,19 +21,38 @@ class MainApp extends StatelessWidget {
             create: (context) => injector<GetMovieCreditsCubit>()),
         BlocProvider<GetSavedMoviesCubit>(
             create: (context) =>
-                injector<GetSavedMoviesCubit>()..getSavedMovieDetails()),
+            injector<GetSavedMoviesCubit>()..getSavedMovieDetails()),
       ],
       child: ScreenUtilInit(
         builder: (context, child) {
           return BlocBuilder<ThemeCubit, ThemeState>(
             builder: (context, themeState) {
-              return MaterialApp.router(
-                themeMode: themeState.themeMode,
-                theme: AppTheme.lightTheme,
-                darkTheme: AppTheme.darkTheme,
-                routerDelegate: AutoRouterDelegate(router),
-                routeInformationParser: router.defaultRouteParser(),
-                debugShowCheckedModeBanner: false,
+              // Determine ThemeData based on themeMode
+              ThemeData themeData;
+              switch (themeState.themeMode) {
+                case ThemeMode.light:
+                  themeData = AppTheme.lightTheme;
+                  break;
+                case ThemeMode.dark:
+                  themeData = AppTheme.darkTheme;
+                  break;
+                case ThemeMode.system:
+                  themeData = MediaQuery.of(context).platformBrightness == Brightness.dark
+                      ? AppTheme.darkTheme
+                      : AppTheme.lightTheme;
+                  break;
+              }
+
+              return AnimatedTheme(
+                data: themeData,
+                duration: const Duration(milliseconds: 500), // Animation duration
+                curve: Curves.easeInOut, // Smooth animation curve
+                child: MaterialApp.router(
+                  theme: themeData, // Required for MaterialApp
+                  routerDelegate: AutoRouterDelegate(router),
+                  routeInformationParser: router.defaultRouteParser(),
+                  debugShowCheckedModeBanner: false,
+                ),
               );
             },
           );

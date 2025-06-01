@@ -9,7 +9,6 @@ class MovieRemoteDataSourceImpl implements MovieRemoteDataSource {
 
   const MovieRemoteDataSourceImpl(this._dioClient);
 
-  /// Retrieves a list of popular movies from the remote data source.
   @override
   Future<MovieListingsModel> getPopularMovies({required int page}) async {
     try {
@@ -25,7 +24,6 @@ class MovieRemoteDataSourceImpl implements MovieRemoteDataSource {
     }
   }
 
-  /// Retrieves a list of top rated movies from the remote data source.
   @override
   Future<MovieListingsModel> getTopRatedMovies({required int page}) async {
     try {
@@ -41,7 +39,6 @@ class MovieRemoteDataSourceImpl implements MovieRemoteDataSource {
     }
   }
 
-  /// Retrieves the movie credits for a given movie ID from the remote data source.
   @override
   Future<MovieCreditModel> getMovieCredits({required int movieId}) async {
     try {

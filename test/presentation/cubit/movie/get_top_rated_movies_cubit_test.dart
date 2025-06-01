@@ -73,18 +73,27 @@ void main() {
         ],
       );
 
-      provideDummy<Either<NetworkException, MovieListingsEntity>>(Right(tMovieListingsEntity));
+      provideDummy<Either<NetworkException, MovieListingsEntity>>(
+          Right(tMovieListingsEntity));
 
-      when(mockMovieUsecases.getTopRatedMovies(page: tPage)).thenAnswer((_) async => Right(tMovieListingsEntity));
+      when(mockMovieUsecases.getTopRatedMovies(page: tPage))
+          .thenAnswer((_) async => Right(tMovieListingsEntity));
     },
     build: () => GetTopRatedMoviesCubit(mockMovieUsecases),
     act: (bloc) async => bloc.getTopRatedMovies(),
     expect: () => [
       const GetTopRatedMoviesLoading(),
       GetTopRatedMoviesLoaded(
-          movies: [tMovieDetailEntity, tMovieDetailEntity2, tMovieDetailEntity3, tMovieDetailEntity4]),
+          // hasReachedMax: true,
+          movies: [
+            tMovieDetailEntity,
+            tMovieDetailEntity2,
+            tMovieDetailEntity3,
+            tMovieDetailEntity4
+          ]),
     ],
-    verify: (_) => verify(mockMovieUsecases.getTopRatedMovies(page: 1)).called(1),
+    verify: (_) =>
+        verify(mockMovieUsecases.getTopRatedMovies(page: 1)).called(1),
   );
 
   blocTest<GetTopRatedMoviesCubit, GetTopRatedMoviesState>(
@@ -105,17 +114,24 @@ void main() {
         ],
       );
 
-      provideDummy<Either<NetworkException, MovieListingsEntity>>(Right(tMovieListingsEntity));
+      provideDummy<Either<NetworkException, MovieListingsEntity>>(
+          Right(tMovieListingsEntity));
 
-      when(mockMovieUsecases.getTopRatedMovies(page: tPage)).thenAnswer((_) async => Right(tMovieListingsEntity));
+      when(mockMovieUsecases.getTopRatedMovies(page: tPage))
+          .thenAnswer((_) async => Right(tMovieListingsEntity));
     },
     build: () => GetTopRatedMoviesCubit(mockMovieUsecases),
     act: (bloc) async => bloc.getTopRatedMovies(),
     expect: () => [
       const GetTopRatedMoviesLoading(),
-      GetTopRatedMoviesLoaded(movies: [tMovieDetailEntity, tMovieDetailEntity3, tMovieDetailEntity4]),
+      GetTopRatedMoviesLoaded(movies: [
+        tMovieDetailEntity,
+        tMovieDetailEntity3,
+        tMovieDetailEntity4
+      ]),
     ],
-    verify: (_) => verify(mockMovieUsecases.getTopRatedMovies(page: 1)).called(1),
+    verify: (_) =>
+        verify(mockMovieUsecases.getTopRatedMovies(page: 1)).called(1),
   );
 
   blocTest<GetTopRatedMoviesCubit, GetTopRatedMoviesState>(
@@ -127,17 +143,20 @@ void main() {
         type: DioExceptionType.connectionError,
       );
 
-      provideDummy<Either<NetworkException, MovieListingsEntity>>(Left(NetworkException.fromDioError(dioException)));
+      provideDummy<Either<NetworkException, MovieListingsEntity>>(
+          Left(NetworkException.fromDioError(dioException)));
 
-      when(mockMovieUsecases.getTopRatedMovies(page: 1))
-          .thenAnswer((_) async => Left(NetworkException.fromDioError(dioException)));
+      when(mockMovieUsecases.getTopRatedMovies(page: 1)).thenAnswer(
+          (_) async => Left(NetworkException.fromDioError(dioException)));
     },
     build: () => GetTopRatedMoviesCubit(mockMovieUsecases),
     act: (bloc) => bloc.getTopRatedMovies(),
     expect: () => [
       const GetTopRatedMoviesLoading(),
-      const GetTopRatedMoviesError(message: 'Please check your internet connection')
+      const GetTopRatedMoviesError(
+          message: 'Please check your internet connection')
     ],
-    verify: (_) => verify(mockMovieUsecases.getTopRatedMovies(page: 1)).called(1),
+    verify: (_) =>
+        verify(mockMovieUsecases.getTopRatedMovies(page: 1)).called(1),
   );
 }

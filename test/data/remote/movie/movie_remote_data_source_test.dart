@@ -31,7 +31,6 @@ void main() {
     tMovieCreditModel = MovieCreditModel.fromJson(movieCreditJson as Map<String, dynamic>);
   });
 
-  //* This is the test for the getPopularMovies() method
   group('getPopularMovies', () {
     const int page = 1;
 

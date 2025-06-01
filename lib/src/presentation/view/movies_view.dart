@@ -59,6 +59,7 @@ class MoviesView extends HookWidget {
               return const BaseIndicator();
             },
           ),
+
           BlocBuilder<GetTopRatedMoviesCubit, GetTopRatedMoviesState>(
             builder: (context, getTopRatedMoviesState) {
               if (getTopRatedMoviesState is GetTopRatedMoviesError) {

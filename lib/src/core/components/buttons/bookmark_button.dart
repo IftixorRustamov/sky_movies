@@ -8,14 +8,16 @@ import '../../../presentation/cubit/movie/get_saved_movies/get_saved_movies_cubi
 import '../../../presentation/cubit/movie/toggle_bookmark/toggle_bookmark_cubit.dart';
 
 class BookmarkButton extends StatelessWidget {
-  const BookmarkButton({super.key, required this.movieDetailEntity}) : _buttonStyle = null;
+  const BookmarkButton({super.key, required this.movieDetailEntity})
+      : _buttonStyle = null;
 
   BookmarkButton.filled({super.key, required this.movieDetailEntity})
       : _buttonStyle = ButtonStyle(
-          backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
-          shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(8).r)),
-          elevation: MaterialStateProperty.all<double>(1.5),
-          shadowColor: MaterialStateProperty.all<Color>(Colors.black87),
+          backgroundColor: WidgetStateProperty.all<Color>(Colors.white),
+          shape: WidgetStateProperty.all(
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(8).r)),
+          elevation: WidgetStateProperty.all<double>(1.5),
+          shadowColor: WidgetStateProperty.all<Color>(Colors.black87),
         );
 
   final MovieDetailEntity? movieDetailEntity;
@@ -27,8 +29,9 @@ class BookmarkButton extends StatelessWidget {
     return BlocBuilder<GetSavedMoviesCubit, GetSavedMoviesState>(
       builder: (_, getSavedMoviesState) {
         if (getSavedMoviesState is GetSavedMoviesLoaded) {
-          bool isBookmarked =
-              getSavedMoviesState.movies?.any((element) => element.id == movieDetailEntity?.id) ?? false;
+          bool isBookmarked = getSavedMoviesState.movies
+                  ?.any((element) => element.id == movieDetailEntity?.id) ??
+              false;
 
           return IconButton(
             style: _buttonStyle,
@@ -36,7 +39,9 @@ class BookmarkButton extends StatelessWidget {
             onPressed: () async {
               await GetIt.I<ToggleBookmarkCubit>()
                   .toggleBookmark(movieDetailEntity: movieDetailEntity)
-                  .then((_) => context.read<GetSavedMoviesCubit>().getSavedMovieDetails());
+                  .then((_) => context
+                      .read<GetSavedMoviesCubit>()
+                      .getSavedMovieDetails());
 
               isBookmarked = !isBookmarked;
             },
@@ -51,7 +56,9 @@ class BookmarkButton extends StatelessWidget {
                 size: 30,
                 color: Theme.of(context).primaryColor,
               ),
-              crossFadeState: isBookmarked ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+              crossFadeState: isBookmarked
+                  ? CrossFadeState.showFirst
+                  : CrossFadeState.showSecond,
               duration: kThemeAnimationDuration,
             ),
           );

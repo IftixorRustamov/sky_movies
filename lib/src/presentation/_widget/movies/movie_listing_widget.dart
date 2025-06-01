@@ -7,7 +7,6 @@ class _MovieListingWidget extends HookWidget {
     required this.hasReachedMax,
   });
 
-
   final List<MovieDetailEntity>? movies;
   final void Function() whenScrollBottom;
   final bool hasReachedMax;
@@ -17,28 +16,27 @@ class _MovieListingWidget extends HookWidget {
     final scrollController = useScrollController();
     useAutomaticKeepAlive();
 
-    final listener = useMemoized(
-      () => () async {
-        final isBottom = scrollController.position.maxScrollExtent == scrollController.offset &&
-            scrollController.position.pixels == scrollController.position.maxScrollExtent;
-
-        if (isBottom) {
-          whenScrollBottom.call();
-        }
-      },
-    );
-
     useEffect(
       () {
-        scrollController.addListener(listener);
+        void scrollListener() {
+          print('Scroll position: ${scrollController.position.pixels} / ${scrollController.position.maxScrollExtent}');
+          if (!hasReachedMax &&
+              scrollController.position.pixels >=
+                  scrollController.position.maxScrollExtent - 200) {
+            print('Triggering load more');
+            whenScrollBottom.call();
+          }
+        }
 
-        return () => scrollController.removeListener(listener);
+        scrollController.addListener(scrollListener);
+
+        return () => scrollController.removeListener(scrollListener);
       },
-      [],
+      [scrollController, hasReachedMax],
     );
 
     return ListView(
-      shrinkWrap: true,
+      shrinkWrap: false,
       controller: scrollController,
       padding: EdgeInsets.zero,
       physics: const BouncingScrollPhysics(),
@@ -58,7 +56,8 @@ class _MovieListingWidget extends HookWidget {
             final tag = UniqueKey();
 
             return GestureDetector(
-              onTap: () => context.router.push(MovieDetailRoute(movieDetail: movies?[index], heroTag: tag)),
+              onTap: () => context.router.push(
+                  MovieDetailRoute(movieDetail: movies?[index], heroTag: tag)),
               child: Hero(tag: tag, child: MovieCard(movie: movies?[index])),
             );
           },

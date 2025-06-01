@@ -31,7 +31,8 @@ void main() {
   setUpAll(() {
     mockMovieRemoteDataSource = MockMovieRemoteDataSource();
     mockMovieLocalDataSource = MockMovieLocalDataSource();
-    movieRepository = MovieRepositoryImpl(mockMovieRemoteDataSource, mockMovieLocalDataSource);
+    movieRepository = MovieRepositoryImpl(
+        mockMovieRemoteDataSource, mockMovieLocalDataSource);
 
     tMovieDetailModel = const MovieDetailModel(
       id: 1,
@@ -67,18 +68,29 @@ void main() {
 
     tMovieCreditModel = const MovieCreditModel(
       id: 1,
-      cast: [CastModel(id: 1, name: 'name', character: 'character', profilePath: 'profilePath')],
+      cast: [
+        CastModel(
+            id: 1,
+            name: 'name',
+            character: 'character',
+            profilePath: 'profilePath')
+      ],
       crew: [CrewModel(id: 1, name: 'name', profilePath: 'profilePath')],
     );
 
     tMovieCreditEntity = const MovieCreditEntity(
       id: 1,
-      cast: [CastEntity(id: 1, name: 'name', character: 'character', profilePath: 'profilePath')],
+      cast: [
+        CastEntity(
+            id: 1,
+            name: 'name',
+            character: 'character',
+            profilePath: 'profilePath')
+      ],
       crew: [CrewEntity(id: 1, name: 'name', profilePath: 'profilePath')],
     );
   });
 
-  //* This is the test for the getPopularMovies() method
   group('getPopularMovies', () {
     const tPage = 1;
     final dioException = DioException(
@@ -91,10 +103,11 @@ void main() {
       ),
     );
 
-    test('should return [MovieListingsEntity] when the call to remote data source is successful', () async {
-      // arrange
-      when(mockMovieRemoteDataSource.getPopularMovies(page: tPage)).thenAnswer((_) async => tMovieListingsModel);
-      // act
+    test(
+        'should return [MovieListingsEntity] when the call to remote data source is successful',
+        () async {
+      when(mockMovieRemoteDataSource.getPopularMovies(page: tPage))
+          .thenAnswer((_) async => tMovieListingsModel);
       final result = await movieRepository.getPopularMovies(page: tPage);
       // assert
       expect(result, equals(Right(tMovieListingsEntity)));
@@ -102,9 +115,12 @@ void main() {
       verifyNoMoreInteractions(mockMovieRemoteDataSource);
     });
 
-    test('should return [NetworkException] when the call to remote data source is unsuccessful', () async {
+    test(
+        'should return [NetworkException] when the call to remote data source is unsuccessful',
+        () async {
       // arrange
-      when(mockMovieRemoteDataSource.getPopularMovies(page: tPage)).thenThrow(dioException);
+      when(mockMovieRemoteDataSource.getPopularMovies(page: tPage))
+          .thenThrow(dioException);
       // act
       final result = await movieRepository.getPopularMovies(page: tPage);
       // assert
@@ -127,9 +143,12 @@ void main() {
       ),
     );
 
-    test('should return [MovieListingsEntity] when the call to remote data source is successful', () async {
+    test(
+        'should return [MovieListingsEntity] when the call to remote data source is successful',
+        () async {
       // arrange
-      when(mockMovieRemoteDataSource.getTopRatedMovies(page: tPage)).thenAnswer((_) async => tMovieListingsModel);
+      when(mockMovieRemoteDataSource.getTopRatedMovies(page: tPage))
+          .thenAnswer((_) async => tMovieListingsModel);
       // act
       final result = await movieRepository.getTopRatedMovies(page: tPage);
       // assert
@@ -138,9 +157,12 @@ void main() {
       verifyNoMoreInteractions(mockMovieRemoteDataSource);
     });
 
-    test('should return [NetworkException] when the call to remote data source is unsuccessful', () async {
+    test(
+        'should return [NetworkException] when the call to remote data source is unsuccessful',
+        () async {
       // arrange
-      when(mockMovieRemoteDataSource.getTopRatedMovies(page: tPage)).thenThrow(dioException);
+      when(mockMovieRemoteDataSource.getTopRatedMovies(page: tPage))
+          .thenThrow(dioException);
       // act
       final result = await movieRepository.getTopRatedMovies(page: tPage);
       // assert
@@ -163,9 +185,12 @@ void main() {
       ),
     );
 
-    test('should return [MovieCreditEntity] when the call to remote data source is successful', () async {
+    test(
+        'should return [MovieCreditEntity] when the call to remote data source is successful',
+        () async {
       // arrange
-      when(mockMovieRemoteDataSource.getMovieCredits(movieId: tMovieId)).thenAnswer((_) async => tMovieCreditModel);
+      when(mockMovieRemoteDataSource.getMovieCredits(movieId: tMovieId))
+          .thenAnswer((_) async => tMovieCreditModel);
       // act
       final result = await movieRepository.getMovieCredits(movieId: tMovieId);
       // assert
@@ -174,9 +199,12 @@ void main() {
       verifyNoMoreInteractions(mockMovieRemoteDataSource);
     });
 
-    test('should return [NetworkException] when the call to remote data source is unsuccessful', () async {
+    test(
+        'should return [NetworkException] when the call to remote data source is unsuccessful',
+        () async {
       // arrange
-      when(mockMovieRemoteDataSource.getMovieCredits(movieId: tMovieId)).thenThrow(dioException);
+      when(mockMovieRemoteDataSource.getMovieCredits(movieId: tMovieId))
+          .thenThrow(dioException);
       // act
       final result = await movieRepository.getMovieCredits(movieId: tMovieId);
       // assert
